@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>AJAX Example</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <p id="output">Default text</p>
-        <!--<input id="user_number">--> 
-        <button onclick="update_user()">Submit</button>
-        <script type="text/javascript">
-            function update_user(){
-                //user_number = document.getElementById("user_number").value;
-                //alert("number received");
-                //create an HTTP request object
-                
-                //alert("request sent");
-                httpRequest.onreadystatechange = function(){
-                    alert("action");
-                    if(this.readyState == 4 && this.status == 200){
-                        console.log("Ready State:",httpRequest.readyState,"Status:",httpRequest.status);
-                            //alert("status 200");
-                            try{
+<head>
+    <title>AJAX Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #output {
+            color: black;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <img src="latte-image.png" id="my-image" onclick="update_image()">
+    <p id="output">Default text</p>
+    <input id="user_number" placeholder="Enter a number">
+    <button onclick="updateUser()">Submit</button>
 
-                                const user_data = JSON.parse(this.responseText);
-                                //alert("HTTP Response received");
-                                document.getElementById("output").innerHTML = user_data.data.first_name;
-                            } catch(err){
-                                console.error("Error parsing JSON or updating DOM:", err.message);
-                                alert("Something went wrong while processing the server response.");
-                            }
-                        }
-                       else{
-                            console.warn("Server returned status:", this.status);
-                            alert("Server returned status: " + this.status);
-                        }
+    <script>
+        function updateUser() {
+            const output = document.getElementById("output");
+            const userNumber = document.getElementById("user_number").value;
+
+            output.style.color = "red";
+            output.style.fontSize = "20px";
+            output.textContent = "Processing number: " + userNumber;
+
+            // Make an AJAX request
+            const httpRequest = new XMLHttpRequest();
+            const url = "https://jsonplaceholder.typicode.com/posts/" + userNumber; // Example API
+
+            httpRequest.onreadystatechange = function() {
+                if (httpRequest.readyState === 4) {
+                    if (httpRequest.status === 200) {
+                        const data = JSON.parse(httpRequest.responseText);
+                        output.textContent = "Title from API: " + data.title;
+                    } else {
+                        output.textContent = "Error fetching data!";
                     }
+                }
             };
-            let user_number = 2;
-            httpRequest = new XMLHttpRequest();
-            httpRequest.open("GET","https://reqres.in/api/users/" + user_number);
+
+            httpRequest.open("GET", url, true);
             httpRequest.send();
-        </script>
-    </body>
+        }
+        function update_image(){
+            document.getElementbyId("myimage").src="mocha.png";
+        }
+    </script>
+</body>
 </html>
