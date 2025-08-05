@@ -1,4 +1,4 @@
-#Coffee Shop Web Design and Layout
+Coffee Shop Web Design and Layout
 
 A front-end web prototype of a coffee shop that simulates a real-world digital product purchase experience. Built using semantic HTML, responsive CSS, and Vanilla JavaScript with JotForm and AJAX integration for form submission and API-based dynamic content updates.
 
